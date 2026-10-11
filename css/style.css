@@ -1,0 +1,1287 @@
+
+/* =========================================
+   PIPELINE RESCUE LAB
+   Main stylesheet
+========================================= */
+
+/* 1. Global Variables */
+
+:root {
+    --bg-main: #0b1120;
+    --bg-secondary: #101a2d;
+    --bg-card: #121e33;
+    --bg-card-hover: #182740;
+
+    --text-primary: #f1f5f9;
+    --text-secondary: #a6b4c8;
+    --text-muted: #77869c;
+
+    --accent: #70f0b4;
+    --accent-dark: #143e34;
+    --border: #26364d;
+
+    --success: #70f0b4;
+    --warning: #f6c76a;
+    --danger: #ff8585;
+
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 22px;
+
+    --container-width: 1160px;
+    --transition: 0.25s ease;
+}
+
+/* 2. Reset */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 90px;
+}
+
+body {
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+    background: var(--bg-main);
+    color: var(--text-primary);
+    line-height: 1.7;
+    min-width: 320px;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button {
+    font: inherit;
+}
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+}
+
+p {
+    color: var(--text-secondary);
+}
+
+.container {
+    width: min(var(--container-width), calc(100% - 48px));
+    margin-inline: auto;
+}
+
+section[id] {
+    scroll-margin-top: 90px;
+}
+
+/* 3. Header and Navigation */
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(11, 17, 32, 0.94);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+}
+
+.navbar {
+    min-height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 17px;
+    font-weight: 750;
+    white-space: nowrap;
+}
+
+.logo-icon {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    color: var(--bg-main);
+    background: var(--accent);
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.logo-accent {
+    color: var(--accent);
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.nav-links a {
+    color: var(--text-secondary);
+    font-size: 14px;
+    transition: color var(--transition);
+}
+
+.nav-links a:hover {
+    color: var(--accent);
+}
+
+/* 4. Buttons */
+
+.button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    padding: 11px 19px;
+    font-size: 14px;
+    font-weight: 650;
+    cursor: pointer;
+    transition:
+        background var(--transition),
+        color var(--transition),
+        border-color var(--transition),
+        transform var(--transition);
+}
+
+.button:hover {
+    transform: translateY(-2px);
+}
+
+.button-primary {
+    color: #08150f;
+    background: var(--accent);
+}
+
+.button-primary:hover {
+    background: #91f6c6;
+}
+
+.button-outline {
+    color: var(--text-primary);
+    background: transparent;
+    border-color: var(--border);
+}
+
+.button-outline:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.button-small {
+    padding: 8px 13px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+/* 5. Hero Section */
+
+.hero {
+    position: relative;
+    overflow: hidden;
+    padding: 100px 0 90px;
+    background:
+        radial-gradient(
+            ellipse at 75% 15%,
+            rgba(112, 240, 180, 0.09),
+            transparent 42%
+        ),
+        linear-gradient(
+            180deg,
+            #0d1627 0%,
+            var(--bg-main) 100%
+        );
+}
+
+.hero-content {
+    display: grid;
+    grid-template-columns: 1.08fr 0.92fr;
+    align-items: center;
+    gap: 65px;
+}
+
+.eyebrow {
+    display: inline-block;
+    margin-bottom: 15px;
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+}
+
+.hero h1 {
+    max-width: 650px;
+    margin-bottom: 22px;
+    font-size: clamp(36px, 4.3vw, 57px);
+    line-height: 1.15;
+    letter-spacing: -1.8px;
+    font-weight: 800;
+}
+
+.hero h1 span {
+    display: block;
+    color: var(--accent);
+}
+
+.hero-text > p {
+    max-width: 540px;
+    font-size: 16px;
+    line-height: 1.9;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+.hero-note {
+    margin-top: 24px;
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+/* 6. Pipeline Preview Card */
+
+.pipeline-card {
+    padding: 24px;
+    border: 1px solid #30445d;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(
+        145deg,
+        #15243a,
+        #0f192b
+    );
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.25);
+}
+
+.card-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 19px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 10px rgba(112, 240, 180, 0.5);
+}
+
+.card-label {
+    padding: 4px 8px;
+    border-radius: 5px;
+    background: #25364b;
+    color: var(--text-secondary);
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+.pipeline-flow {
+    padding-top: 15px;
+}
+
+.pipeline-step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 10px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.025);
+}
+
+.step-icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    background: #24354c;
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.pipeline-step > div {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.pipeline-step strong {
+    font-size: 12px;
+}
+
+.pipeline-step small {
+    color: var(--text-muted);
+    font-size: 10px;
+}
+
+.step-status {
+    color: var(--success);
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+.step-status.warning {
+    color: var(--warning);
+}
+
+.pipeline-connector {
+    height: 15px;
+    width: 1px;
+    margin-left: 27px;
+    background: #41556e;
+}
+
+.pipeline-footer {
+    margin-top: 19px;
+    padding: 17px;
+    border: 1px solid #254c40;
+    border-radius: 10px;
+    background: rgba(112, 240, 180, 0.055);
+}
+
+.pipeline-footer > span {
+    color: var(--accent);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.pipeline-footer p {
+    margin-top: 5px;
+    color: var(--text-primary);
+    font-size: 12px;
+}
+
+/* 7. General Sections */
+
+.section {
+    padding-top: 90px;
+    padding-bottom: 90px;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    margin-bottom: 32px;
+}
+
+.section-heading h2 {
+    margin-bottom: 10px;
+    font-size: clamp(27px, 3vw, 36px);
+    line-height: 1.3;
+    letter-spacing: -0.8px;
+}
+
+.section-heading p {
+    max-width: 620px;
+    font-size: 14px;
+}
+
+.section-heading .eyebrow {
+    margin-bottom: 10px;
+}
+
+/* 8. Challenge Cards */
+
+.challenge-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.challenge-card {
+    padding: 25px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
+    transition:
+        transform var(--transition),
+        border-color var(--transition),
+        background var(--transition);
+}
+
+.challenge-card:hover {
+    transform: translateY(-5px);
+    border-color: #46614f;
+    background: var(--bg-card-hover);
+}
+
+.challenge-icon {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.sql-icon {
+    background: #193b36;
+    color: var(--accent);
+}
+
+.debug-icon {
+    background: #44351f;
+    color: var(--warning);
+}
+
+.build-icon {
+    background: #293251;
+    color: #aebeff;
+}
+
+.challenge-level {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-muted);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.challenge-card h3 {
+    margin-bottom: 10px;
+    font-size: 19px;
+}
+
+.challenge-card p {
+    min-height: 78px;
+    margin-bottom: 20px;
+    font-size: 13px;
+}
+
+.text-link {
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.text-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+/* 9. Featured Challenges */
+
+.featured-section {
+    background: #0e1728;
+    border-top: 1px solid rgba(38, 54, 77, 0.5);
+    border-bottom: 1px solid rgba(38, 54, 77, 0.5);
+}
+
+.challenge-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.challenge-row {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 20px;
+    padding: 22px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
+}
+
+.challenge-number {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.challenge-details h3 {
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.challenge-details p {
+    margin-bottom: 12px;
+    font-size: 12px;
+}
+
+.tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.tag-list span {
+    padding: 4px 8px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: var(--text-secondary);
+    font-size: 10px;
+}
+
+.difficulty {
+    padding: 5px 9px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.difficulty.easy {
+    color: var(--success);
+    background: rgba(112, 240, 180, 0.1);
+}
+
+.difficulty.medium {
+    color: var(--warning);
+    background: rgba(246, 199, 106, 0.1);
+}
+
+.prototype-note {
+    margin-top: 18px;
+    color: var(--text-muted);
+    font-size: 11px;
+}
+
+/* 10. Learning Paths */
+
+.learning-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.learning-card {
+    padding: 24px;
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    background: var(--bg-secondary);
+}
+
+.learning-card h3 {
+    margin-bottom: 10px;
+    font-size: 17px;
+}
+
+.learning-card p {
+    margin-bottom: 18px;
+    font-size: 13px;
+}
+
+.learning-meta {
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* 11. How It Works */
+
+.how-section {
+    background: #0e1728;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 25px;
+}
+
+.how-step {
+    padding-top: 20px;
+    border-top: 1px solid #35465c;
+}
+
+.how-number {
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.how-step h3 {
+    margin: 12px 0 8px;
+    font-size: 17px;
+}
+
+.how-step p {
+    font-size: 13px;
+}
+
+/* 12. Call to Action */
+
+.cta-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    padding: 38px;
+    border: 1px solid #315345;
+    border-radius: var(--radius-lg);
+    background:
+        radial-gradient(
+            ellipse at right,
+            rgba(112, 240, 180, 0.1),
+            transparent 60%
+        ),
+        var(--bg-secondary);
+}
+
+.cta-card h2 {
+    margin-bottom: 10px;
+    font-size: clamp(24px, 3vw, 32px);
+    line-height: 1.3;
+}
+
+.cta-card p {
+    max-width: 650px;
+    font-size: 13px;
+}
+
+/* 13. Footer */
+
+.site-footer {
+    border-top: 1px solid var(--border);
+    background: #080e19;
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.footer-content > p {
+    font-size: 12px;
+}
+
+.copyright {
+    color: var(--text-muted);
+}
+
+/* 14. Challenge Dialog */
+
+.challenge-dialog {
+    width: min(560px, calc(100% - 32px));
+    max-height: 85vh;
+    margin: auto;
+    padding: 26px;
+    overflow-y: auto;
+    border: 1px solid #35465c;
+    border-radius: var(--radius-lg);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.challenge-dialog::backdrop {
+    background: rgba(3, 7, 18, 0.8);
+    backdrop-filter: blur(4px);
+}
+
+.dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.dialog-header h2 {
+    font-size: 22px;
+}
+
+.close-button {
+    display: grid;
+    place-items: center;
+    width: 35px;
+    height: 35px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-primary);
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.close-button:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+.dialog-body {
+    margin-bottom: 22px;
+}
+
+.dialog-body p {
+    margin-bottom: 14px;
+    font-size: 14px;
+}
+
+.dialog-body pre {
+    padding: 15px;
+    overflow-x: auto;
+    border-radius: 8px;
+    background: #080e19;
+    color: var(--accent);
+    font-size: 12px;
+}
+
+.challenge-dialog > .button {
+    width: 100%;
+}
+
+/* 15. Responsive Layout */
+
+@media (max-width: 1000px) {
+    .hero-content {
+        grid-template-columns: 1fr;
+        gap: 45px;
+    }
+
+    .hero-text {
+        max-width: 720px;
+    }
+
+    .pipeline-card {
+        max-width: 650px;
+        width: 100%;
+    }
+
+    .challenge-row {
+        grid-template-columns: 38px minmax(0, 1fr) auto;
+    }
+
+    .challenge-row .difficulty {
+        display: none;
+    }
+}
+
+@media (max-width: 760px) {
+    .container {
+        width: min(100% - 32px, var(--container-width));
+    }
+
+    .navbar {
+        min-height: 68px;
+        flex-wrap: wrap;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        gap: 12px;
+    }
+
+    .nav-links {
+        order: 3;
+        width: 100%;
+        justify-content: space-between;
+        gap: 12px;
+    }
+
+    .nav-links a {
+        font-size: 12px;
+    }
+
+    .navbar > .button {
+        padding: 8px 11px;
+        font-size: 12px;
+    }
+
+    .hero {
+        padding: 65px 0;
+    }
+
+    .hero h1 {
+        font-size: clamp(34px, 8vw, 46px);
+        letter-spacing: -1px;
+    }
+
+    .hero-text > p {
+        font-size: 14px;
+    }
+
+    .section {
+        padding-top: 65px;
+        padding-bottom: 65px;
+    }
+
+    .challenge-grid,
+    .learning-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .challenge-card p {
+        min-height: 0;
+    }
+
+    .steps-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 28px 20px;
+    }
+
+    .challenge-row {
+        grid-template-columns: 35px minmax(0, 1fr);
+        gap: 12px;
+        padding: 16px;
+    }
+
+    .challenge-row .button-small {
+        grid-column: 2;
+        justify-self: start;
+    }
+
+    .challenge-details h3 {
+        font-size: 14px;
+    }
+
+    .cta-card {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 26px;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 420px) {
+    .logo {
+        font-size: 14px;
+        gap: 7px;
+    }
+
+    .logo-icon {
+        width: 33px;
+        height: 33px;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .pipeline-card {
+        padding: 15px;
+    }
+
+    .pipeline-step {
+        gap: 8px;
+        padding: 10px 6px;
+    }
+
+    .pipeline-step strong {
+        font-size: 11px;
+    }
+
+    .pipeline-step small {
+        font-size: 9px;
+    }
+
+    .step-status {
+        font-size: 9px;
+    }
+
+    .steps-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .challenge-row {
+        padding: 12px;
+    }
+
+    .tag-list span {
+        font-size: 9px;
+    }
+}
+
+/* 16. Reduced Motion Accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}
+
+
+
+/* =========================================
+   SQL PRACTICE LAB
+========================================= */
+
+.sql-lab {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--bg-secondary);
+}
+
+.sql-lab-sidebar {
+    padding: 22px;
+    border-right: 1px solid var(--border);
+    background: #0e1728;
+}
+
+.sql-lab-sidebar h3 {
+    margin-bottom: 18px;
+    font-size: 15px;
+}
+
+.sql-challenge {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    width: 100%;
+    padding: 13px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    text-align: left;
+    cursor: pointer;
+}
+
+.sql-challenge.active {
+    border-color: var(--accent);
+    background: var(--accent-dark);
+}
+
+.sql-challenge > span:first-child {
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.sql-challenge strong,
+.sql-challenge small {
+    display: block;
+}
+
+.sql-challenge strong {
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.sql-challenge small {
+    margin-top: 6px;
+    color: var(--text-secondary);
+    font-size: 10px;
+}
+
+.sql-table-info {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+}
+
+.sql-table-info p {
+    margin-bottom: 7px;
+    color: var(--accent);
+}
+
+.sql-table-info small {
+    color: var(--text-muted);
+    font-size: 11px;
+    overflow-wrap: anywhere;
+}
+
+.sql-workspace {
+    min-width: 0;
+    padding: 22px;
+}
+
+.sql-workspace-header,
+.sql-results-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.sql-workspace-header {
+    margin-bottom: 20px;
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+#sql-engine-status {
+    color: var(--text-secondary);
+    font-size: 10px;
+    letter-spacing: 0;
+    text-align: right;
+}
+
+.sql-editor-label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+#sql-query {
+    display: block;
+    width: 100%;
+    min-height: 190px;
+    padding: 18px;
+    resize: vertical;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    outline: none;
+    background: #080e19;
+    color: #8df5c1;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    tab-size: 4;
+}
+
+#sql-query:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(112, 240, 180, 0.1);
+}
+
+.sql-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+#sql-query-message {
+    flex-basis: 100%;
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+#sql-query-message.success {
+    color: var(--success);
+}
+
+#sql-query-message.error {
+    color: var(--danger);
+}
+
+.sql-results {
+    margin-top: 30px;
+}
+
+.sql-results-header {
+    margin-bottom: 13px;
+}
+
+.sql-results-header h3 {
+    font-size: 15px;
+}
+
+#sql-row-count {
+    color: var(--text-secondary);
+    font-size: 11px;
+}
+
+.sql-results-table {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+}
+
+#sql-result-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    text-align: left;
+}
+
+#sql-result-table th,
+#sql-result-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+}
+
+#sql-result-table th {
+    background: #1a2940;
+    color: var(--accent);
+    font-weight: 700;
+}
+
+#sql-result-table td {
+    color: var(--text-secondary);
+}
+
+#sql-result-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+#sql-result-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.025);
+}
+
+@media (max-width: 760px) {
+    .sql-lab {
+        grid-template-columns: 1fr;
+    }
+
+    .sql-lab-sidebar {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .sql-workspace {
+        padding: 15px;
+    }
+
+    #sql-query {
+        min-height: 170px;
+        font-size: 12px;
+    }
+}
+
+
+
+/* Challenge selector and learning assistance */
+
+.sql-challenge-selector {
+    display: block;
+    width: 100%;
+    margin: 10px 0 18px;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    font: inherit;
+    font-size: 12px;
+}
+
+.sql-challenge-selector:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.learning-feedback {
+    margin-top: 20px;
+    padding: 18px;
+    border: 1px solid #315345;
+    border-radius: 12px;
+    background: rgba(112, 240, 180, 0.05);
+}
+
+.learning-feedback h3 {
+    margin-bottom: 8px;
+    color: var(--accent);
+    font-size: 15px;
+}
+
+.learning-feedback p {
+    font-size: 13px;
+    white-space: pre-wrap;
+}
+
+.learning-feedback pre {
+    margin-top: 12px;
+    padding: 15px;
+    overflow-x: auto;
+    border-radius: 8px;
+    background: #080e19;
+    color: var(--accent);
+    font-size: 12px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+}
+
+/* Learning Progress */
+.progress-card {
+    padding: 24px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--bg-card);
+}
+
+.progress-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+#progress-percentage {
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.progress-track {
+    height: 10px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: var(--border);
+}
+
+.progress-fill {
+    width: 0%;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--accent);
+    transition: width 0.3s ease;
+}
+
+#progress-message {
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}

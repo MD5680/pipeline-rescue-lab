@@ -1,0 +1,589 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Practice SQL, debug data pipelines, and prepare for Data Engineering interviews with hands-on challenges.">
+    <title>Pipeline Rescue Lab | Data Engineering Practice</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <header class="site-header">
+        <nav class="navbar container" aria-label="Main navigation">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">PL</span>
+                <span>Pipeline<span class="logo-accent">Rescue</span>Lab</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="#practice">Practice</a>
+                <a href="#learning-paths">Learning Paths</a>
+                <a href="#how-it-works">How It Works</a>
+            </div>
+
+            <a href="#practice" class="button button-outline">
+                Start Practicing
+            </a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container hero-content">
+                <div class="hero-text">
+                    <span class="eyebrow">
+                        THE HANDS-ON DATA ENGINEERING LAB
+                    </span>
+
+                    <h1>
+                        Don't just learn data engineering.
+                        <span>Solve real problems.</span>
+                    </h1>
+
+                    <p>
+                        Practise SQL, troubleshoot broken pipelines, explore
+                        data quality problems, and build the skills you need
+                        for Data Engineering interviews.
+                    </p>
+
+                    <div class="hero-actions">
+                        <a href="#practice" class="button button-primary">
+                            Explore Challenges
+                        </a>
+                        <a href="#how-it-works" class="button button-outline">
+                            How It Works
+                        </a>
+                    </div>
+
+                    <div class="hero-note">
+                        Built for learners, fresh graduates, and aspiring
+                        Data Engineers.
+                    </div>
+                </div>
+
+                <!-- Pipeline Overview -->
+                <div class="pipeline-card">
+                    <div class="card-heading">
+                        <div>
+                            <span class="status-dot"></span>
+                            Pipeline overview
+                        </div>
+                        <span class="card-label">DEMO</span>
+                    </div>
+
+                    <div class="pipeline-flow">
+                        <div class="pipeline-step">
+                            <span class="step-icon">01</span>
+                            <div>
+                                <strong>Source Data</strong>
+                                <small>CSV / Database / API</small>
+                            </div>
+                            <span class="step-status">Ready</span>
+                        </div>
+
+                        <div class="pipeline-connector"></div>
+
+                        <div class="pipeline-step">
+                            <span class="step-icon">02</span>
+                            <div>
+                                <strong>Data Ingestion</strong>
+                                <small>Load raw records</small>
+                            </div>
+                            <span class="step-status">Ready</span>
+                        </div>
+
+                        <div class="pipeline-connector"></div>
+
+                        <div class="pipeline-step">
+                            <span class="step-icon">03</span>
+                            <div>
+                                <strong>Transformation</strong>
+                                <small>Clean and validate</small>
+                            </div>
+                            <span class="step-status warning">Practice</span>
+                        </div>
+
+                        <div class="pipeline-connector"></div>
+
+                        <div class="pipeline-step">
+                            <span class="step-icon">04</span>
+                            <div>
+                                <strong>Analytics Layer</strong>
+                                <small>Business-ready data</small>
+                            </div>
+                            <span class="step-status">Output</span>
+                        </div>
+                    </div>
+
+                    <div class="pipeline-footer">
+                        <span>YOUR MISSION</span>
+                        <p>Find the bug. Fix the data. Explain the solution.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Learning Progress -->
+<section class="section container" id="learning-progress">
+    <div class="section-heading">
+        <div>
+            <span class="eyebrow">YOUR JOURNEY</span>
+            <h2>Your Learning Progress</h2>
+            <p>Track the SQL challenges you have completed.</p>
+        </div>
+    </div>
+
+    <div class="progress-card">
+        <div class="progress-summary">
+            <strong id="progress-count">0 of 3 challenges completed</strong>
+            <span id="progress-percentage">0%</span>
+        </div>
+
+        <div
+            class="progress-track"
+            role="progressbar"
+            aria-label="SQL challenge completion"
+            aria-valuemin="0"
+            aria-valuemax="3"
+            aria-valuenow="0"
+            id="progress-bar">
+            <div id="progress-fill" class="progress-fill"></div>
+        </div>
+
+        <p id="progress-message" aria-live="polite">
+            Complete your first challenge to get started!
+        </p>
+
+         <button
+            type="button"
+            id="reset-progress"
+            class="button button-outline">
+            Reset Progress
+        </button>
+    </div>
+</section>
+
+        <!-- Practice Categories -->
+        <section class="section container" id="practice">
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">PRACTICE BY DOING</span>
+                    <h2>Choose your challenge</h2>
+                    <p>
+                        Move beyond theory with exercises based on
+                        everyday Data Engineering tasks.
+                    </p>
+                </div>
+            </div>
+
+            <div class="challenge-grid">
+                <article class="challenge-card">
+                    <div class="challenge-icon sql-icon">SQL</div>
+                    <span class="challenge-level">BEGINNER FRIENDLY</span>
+                    <h3>SQL Practice Lab</h3>
+                    <p>
+                        Solve database problems using joins, aggregations,
+                        subqueries, CTEs, and window functions.
+                    </p>
+                    <a href="#sql-lab" class="text-link">
+                        Explore SQL challenges →
+                    </a>
+                </article>
+
+                <article class="challenge-card">
+                    <div class="challenge-icon debug-icon">!</div>
+                    <span class="challenge-level">REAL-WORLD SCENARIOS</span>
+                    <h3>Pipeline Debugging</h3>
+                    <p>
+                        Investigate missing records, duplicate rows,
+                        incorrect metrics, and failed transformations.
+                    </p>
+                    <a href="#debug-challenges" class="text-link">
+                        Explore debugging →
+                    </a>
+                </article>
+
+                <article class="challenge-card">
+                    <div class="challenge-icon build-icon">{ }</div>
+                    <span class="challenge-level">HANDS-ON LEARNING</span>
+                    <h3>Build Data Pipelines</h3>
+                    <p>
+                        Practise ingestion, transformation, validation,
+                        and analytical data modelling.
+                    </p>
+                    <a href="#learning-paths" class="text-link">
+                        Explore learning paths →
+                    </a>
+                </article>
+            </div>
+        </section>
+
+        <!-- Interactive SQL Practice Lab -->
+        <section class="section container" id="sql-lab">
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">INTERACTIVE SQL PRACTICE</span>
+                    <h2>SQL Practice Lab</h2>
+                    <p>
+                        Write queries, explore sample data, and learn
+                        by executing SQL in your browser.
+                    </p>
+                </div>
+            </div>
+
+            <div class="sql-lab">
+                <!-- Challenge Sidebar -->
+                <div class="sql-lab-sidebar">
+                    <h3>Challenges</h3>
+
+                    <label for="challenge-selector" class="sql-editor-label">
+                        Choose a challenge
+                    </label>
+
+                    <select id="challenge-selector"
+                            class="sql-challenge-selector">
+                        <option value="duplicates">
+                            01 — Find Duplicate Customers
+                        </option>
+                        <option value="missing-records">
+                            02 — Investigate Missing Records
+                        </option>
+                        <option value="incorrect-revenue">
+                            03 — Fix Incorrect Revenue
+                        </option>
+                    </select>
+
+                    <div class="sql-table-info">
+                        <h3>Available tables</h3>
+                        <p><code>customers</code></p>
+                        <small>customer_id, name, email</small>
+                    </div>
+                </div>
+
+                <!-- SQL Workspace -->
+                <div class="sql-workspace">
+                    <div class="sql-workspace-header">
+                        <span>SQL EDITOR</span>
+                        <span id="sql-engine-status" role="status">
+                            Initializing engine...
+                        </span>
+                    </div>
+
+                    <label for="sql-query" class="sql-editor-label">
+                        Your SQL query
+                    </label>
+
+                    <textarea
+                        id="sql-query"
+                        spellcheck="false"
+                        aria-label="SQL query editor"
+                        placeholder="Write your SQL query here..."
+                    >SELECT email, COUNT(*) AS total
+FROM customers
+GROUP BY email
+HAVING COUNT(*) > 1;</textarea>
+
+                    <div class="sql-actions">
+                        <button type="button"
+                                class="button button-primary"
+                                id="run-sql">
+                            ▶ Run Query
+                        </button>
+
+                        <button type="button"
+                                class="button button-outline"
+                                id="check-answer">
+                            ✓ Check Answer
+                        </button>
+
+                        <button type="button"
+                                class="button button-outline"
+                                id="reset-sql">
+                            Reset Query
+                        </button>
+
+                        <button type="button"
+                                class="button button-outline"
+                                id="show-hint">
+                              Show Hint
+                        </button>
+
+                        <button type="button"
+                                class="button button-outline"
+                                id="show-solution">
+                            Show Solution
+                        </button>
+
+                        <span id="sql-query-message" role="status">
+                            Ready to practise
+                        </span>
+                    </div>
+
+                    <!-- Hint, solution and answer feedback -->
+                    <div id="learning-feedback"
+                         class="learning-feedback"
+                         hidden>
+                        <h3 id="feedback-title"></h3>
+                        <p id="feedback-content"></p>
+                        <pre id="feedback-sql" hidden></pre>
+                    </div>
+
+                    <!-- Query Results -->
+                    <div class="sql-results">
+                        <div class="sql-results-header">
+                            <h3>Query Results</h3>
+                            <span id="sql-row-count">0 rows</span>
+                        </div>
+
+                        <div class="sql-results-table">
+                            <table id="sql-result-table">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            Run your first query to see results.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Challenges -->
+        <section class="section featured-section" id="sql-challenges">
+            <div class="container">
+                <div class="section-heading">
+                    <div>
+                        <span class="eyebrow">START YOUR FIRST CHALLENGE</span>
+                        <h2>Featured challenges</h2>
+                        <p>
+                            Start with a problem, investigate the data,
+                            and work towards a correct solution.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="challenge-list">
+                    <article class="challenge-row">
+                        <div class="challenge-number">01</div>
+                        <div class="challenge-details">
+                            <h3>Find Duplicate Customers</h3>
+                            <p>
+                                Identify email addresses that appear more
+                                than once in a customer table.
+                            </p>
+                            <div class="tag-list">
+                                <span>SQL</span>
+                                <span>GROUP BY</span>
+                                <span>HAVING</span>
+                            </div>
+                        </div>
+                        <span class="difficulty easy">Easy</span>
+                        <button class="button button-small"
+                                type="button"
+                                data-challenge="duplicates">
+                            View Challenge
+                        </button>
+                    </article>
+
+                    <article class="challenge-row" id="debug-challenges">
+                        <div class="challenge-number">02</div>
+                        <div class="challenge-details">
+                            <h3>Investigate Missing Records</h3>
+                            <p>
+                                A pipeline processed fewer records than
+                                expected. Find the possible root cause.
+                            </p>
+                            <div class="tag-list">
+                                <span>ETL</span>
+                                <span>Data Quality</span>
+                                <span>Debugging</span>
+                            </div>
+                        </div>
+                        <span class="difficulty medium">Intermediate</span>
+                        <button class="button button-small"
+                                type="button"
+                                data-challenge="missing-records">
+                            View Challenge
+                        </button>
+                    </article>
+
+                    <article class="challenge-row">
+                        <div class="challenge-number">03</div>
+                        <div class="challenge-details">
+                            <h3>Fix Incorrect Revenue</h3>
+                            <p>
+                                Investigate why a SQL report returns
+                                higher revenue than expected.
+                            </p>
+                            <div class="tag-list">
+                                <span>SQL Joins</span>
+                                <span>Aggregation</span>
+                                <span>Analytics</span>
+                            </div>
+                        </div>
+                        <span class="difficulty medium">Intermediate</span>
+                        <button class="button button-small"
+                                type="button"
+                                data-challenge="incorrect-revenue">
+                            View Challenge
+                        </button>
+                    </article>
+                </div>
+
+                <p class="prototype-note">
+                    The dropdown provides the challenge selection interface.
+                    Each challenge must also be configured in JavaScript
+                    before it can execute and be graded.
+                </p>
+            </div>
+        </section>
+
+        <!-- Learning Paths -->
+        <section class="section container" id="learning-paths">
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">BUILD YOUR SKILLS</span>
+                    <h2>Learning paths</h2>
+                    <p>Develop your technical foundation one skill at a time.</p>
+                </div>
+            </div>
+
+            <div class="learning-grid">
+                <article class="learning-card">
+                    <h3>SQL &amp; Databases</h3>
+                    <p>Queries, joins, database design, and data modelling.</p>
+                    <span class="learning-meta">Beginner → Advanced</span>
+                </article>
+
+                <article class="learning-card">
+                    <h3>Python &amp; ETL</h3>
+                    <p>Data processing, files, transformations, and validation.</p>
+                    <span class="learning-meta">Beginner → Intermediate</span>
+                </article>
+
+                <article class="learning-card">
+                    <h3>PySpark &amp; Lakehouse</h3>
+                    <p>Distributed processing and Bronze/Silver/Gold workflows.</p>
+                    <span class="learning-meta">Intermediate → Advanced</span>
+                </article>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section class="section how-section" id="how-it-works">
+            <div class="container">
+                <div class="section-heading">
+                    <div>
+                        <span class="eyebrow">THE LEARNING METHOD</span>
+                        <h2>Learn by solving problems</h2>
+                    </div>
+                </div>
+
+                <div class="steps-grid">
+                    <div class="how-step">
+                        <span class="how-number">01</span>
+                        <h3>Understand</h3>
+                        <p>Read the business problem and inspect the sample data.</p>
+                    </div>
+
+                    <div class="how-step">
+                        <span class="how-number">02</span>
+                        <h3>Investigate</h3>
+                        <p>Explore the data and identify the underlying issue.</p>
+                    </div>
+
+                    <div class="how-step">
+                        <span class="how-number">03</span>
+                        <h3>Solve</h3>
+                        <p>Write a query or develop a transformation to fix it.</p>
+                    </div>
+
+                    <div class="how-step">
+                        <span class="how-number">04</span>
+                        <h3>Explain</h3>
+                        <p>Review the solution and prepare to explain your reasoning.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="section container">
+            <div class="cta-card">
+                <div>
+                    <span class="eyebrow">YOUR NEXT STEP</span>
+                    <h2>Ready to rescue your first pipeline?</h2>
+                    <p>
+                        Start with SQL, practise data quality, and build
+                        confidence solving real engineering problems.
+                    </p>
+                </div>
+
+                <a href="#sql-lab" class="button button-primary">
+                    Explore Challenges
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">PL</span>
+                <span>Pipeline<span class="logo-accent">Rescue</span>Lab</span>
+            </a>
+
+            <p>A learning project for aspiring Data Engineers.</p>
+
+            <p class="copyright">
+                &copy; <span id="current-year"></span> Pipeline Rescue Lab
+            </p>
+        </div>
+    </footer>
+
+    <!-- Challenge Preview Dialog -->
+    <dialog id="challenge-dialog" class="challenge-dialog">
+        <div class="dialog-header">
+            <h2 id="dialog-title">Challenge</h2>
+            <button id="close-dialog"
+                    class="close-button"
+                    type="button"
+                    aria-label="Close challenge">
+                &times;
+            </button>
+        </div>
+
+        <div class="dialog-body">
+            <p id="dialog-description"></p>
+            <p id="dialog-task"></p>
+            <pre id="dialog-example" hidden></pre>
+
+            <p class="prototype-note">
+                This dialog previews challenge information. Actual SQL
+                execution and automated grading are handled by the SQL Lab.
+            </p>
+        </div>
+
+        <button id="dialog-done"
+                class="button button-primary"
+                type="button">
+            Got it
+        </button>
+    </dialog>
+
+    <!-- Scripts -->
+    <script src="exercises/sql-exercises.js" defer></script>
+    <script src="js/app.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/sql-wasm.js" defer></script>
+    <script src="js/sql-lab.js" defer></script>
+</body>
+</html>
