@@ -153,6 +153,561 @@ FROM order_items;`,
     let lastQueryResults = null;
     let initialQuery = editor.value;
 
+    
+    // Dataset Explorer sample data
+    const explorerDatasets = {
+        ecommerce: {
+            name: "E-commerce Dataset",
+            tables: {
+                customers: {
+                    columns: [
+                        "customer_id",
+                        "customer_name",
+                        "email",
+                        "city"
+                    ],
+                    rows: [
+                        [1, "Ali", "ali@example.com", "Hyderabad"],
+                        [2, "Sara", "sara@example.com", "Pune"],
+                        [3, "John", "john@example.com", "Bengaluru"],
+                        [4, "Ayesha", "ayesha@example.com", "Hyderabad"],
+                        [5, "Ravi", "ravi@example.com", "Pune"]
+                    ]
+                },
+                products: {
+                    columns: [
+                        "product_id",
+                        "product_name",
+                        "category",
+                        "price"
+                    ],
+                    rows: [
+                        [101, "Laptop", "Electronics", 55000],
+                        [102, "Mouse", "Accessories", 500],
+                        [103, "Keyboard", "Accessories", 1200],
+                        [104, "Monitor", "Electronics", 12000]
+                    ]
+                },
+                orders: {
+                    columns: [
+                        "order_id",
+                        "customer_id",
+                        "order_date",
+                        "status"
+                    ],
+                    rows: [
+                        [1001, 1, "2026-10-01", "Delivered"],
+                        [1002, 2, "2026-10-02", "Pending"],
+                        [1003, 1, "2026-10-03", "Delivered"],
+                        [1004, 4, "2026-10-04", "Cancelled"]
+                    ]
+                },
+                order_items: {
+                    columns: [
+                        "item_id",
+                        "order_id",
+                        "product_id",
+                        "quantity",
+                        "unit_price"
+                    ],
+                    rows: [
+                        [1, 1001, 101, 1, 55000],
+                        [2, 1001, 102, 2, 500],
+                        [3, 1002, 103, 1, 1200],
+                        [4, 1003, 104, 2, 12000],
+                        [5, 1004, 102, 1, 500]
+                    ]
+                }
+            }
+        }
+    };
+
+    let explorerDatabase = null;
+    let selectedExplorerTable = null;
+
+    
+    // CSV upload controls
+    const csvFileInput = document.getElementById("csv-file-upload");
+
+    const browseCsvButton = document.getElementById("browse-csv-button");
+
+if (browseCsvButton && csvFileInput) {
+    browseCsvButton.addEventListener("click", () => {
+        csvFileInput.click();
+    });
+}
+
+    const uploadCsvButton = document.getElementById("upload-csv-button");
+    const restoreSampleButton = document.getElementById("restore-sample-dataset");
+    const csvUploadStatus = document.getElementById("csv-upload-status");
+
+    // Parse CSV text, including quoted fields and commas inside quotes
+    function parseCSV(text) {
+        const rows = [];
+        let row = [];
+        let field = "";
+        let insideQuotes = false;
+
+        for (let i = 0; i < text.length; i++) {
+            const char = text[i];
+            const next = text[i + 1];
+
+            if (char === '"' && insideQuotes && next === '"') {
+                field += '"';
+                i++;
+            } else if (char === '"') {
+                insideQuotes = !insideQuotes;
+            } else if (char === "," && !insideQuotes) {
+                row.push(field);
+                field = "";
+            } else if ((char === "\n" || char === "\r") && !insideQuotes) {
+                if (char === "\r" && next === "\n") i++;
+
+                row.push(field);
+
+                if (row.some(value => value.trim() !== "")) {
+                    rows.push(row);
+                }
+
+                row = [];
+                field = "";
+            } else {
+                field += char;
+            }
+        }
+
+        if (field.length > 0 || row.length > 0) {
+            row.push(field);
+
+            if (row.some(value => value.trim() !== "")) {
+                rows.push(row);
+            }
+        }
+
+        if (insideQuotes) {
+            throw new Error("CSV contains an unclosed quoted field.");
+        }
+
+        if (rows.length < 2) {
+            throw new Error("CSV must contain a header and at least one data row.");
+        }
+
+        const columns = rows[0].map((name, index) => {
+            const cleaned = name.trim().replace(/^\uFEFF/, "");
+
+            if (!cleaned) {
+                throw new Error(`Column ${index + 1} has an empty name.`);
+            }
+
+            return cleaned;
+        });
+
+        if (new Set(columns.map(name => name.toLowerCase())).size !== columns.length) {
+            throw new Error("CSV column names must be unique.");
+        }
+
+        const dataRows = rows.slice(1).map((values, index) => {
+            if (values.length !== columns.length) {
+                throw new Error(
+                    `Row ${index + 2} has ${values.length} fields; expected ${columns.length}.`
+                );
+            }
+
+            return values.map(value => value.trim() === "" ? null : value.trim());
+        });
+
+        return { columns, rows: dataRows };
+    }
+
+    // Convert a CSV filename into a safe SQL table name
+    function csvFilenameToTableName(filename) {
+        let name = filename
+            .replace(/\.csv$/i, "")
+            .toLowerCase()
+            .replace(/[^a-z0-9_]+/g, "_")
+            .replace(/^_+|_+$/g, "");
+
+        if (!name) name = "uploaded_table";
+        if (/^[0-9]/.test(name)) name = `table_${name}`;
+
+        return name;
+    }
+
+    // Infer a simple SQLite type for each column
+    function inferCSVType(rows, columnIndex) {
+        const values = rows
+            .map(row => row[columnIndex])
+            .filter(value => value !== null && value !== "");
+
+        if (values.length === 0) return "TEXT";
+
+        if (values.every(value => /^[-+]?\d+$/.test(value))) {
+            return "INTEGER";
+        }
+
+        if (values.every(value =>
+            /^[-+]?(?:\d+\.?\d*|\.\d+)(?:e[-+]?\d+)?$/i.test(value)
+        )) {
+            return "REAL";
+        }
+
+        return "TEXT";
+    }
+
+    // Load selected CSV files into a separate SQL database
+    async function uploadCSVFiles() {
+        const files = Array.from(csvFileInput.files || []);
+
+        if (files.length === 0) {
+            csvUploadStatus.textContent = "Please select one or more CSV files.";
+            return;
+        }
+
+        if (files.length > 10) {
+            csvUploadStatus.textContent = "Please select no more than 10 CSV files.";
+            return;
+        }
+
+        if (files.some(file => file.size > 5 * 1024 * 1024)) {
+            csvUploadStatus.textContent =
+                "Each CSV file must be 5 MB or smaller.";
+            return;
+        }
+
+        uploadCsvButton.disabled = true;
+        csvUploadStatus.textContent = "Reading CSV files...";
+
+        let newDatabase = null;
+
+        try {
+            const parsedFiles = [];
+            const usedNames = new Set();
+
+            for (const file of files) {
+                if (!file.name.toLowerCase().endsWith(".csv")) {
+                    throw new Error(`${file.name} is not a CSV file.`);
+                }
+
+                const tableName = csvFilenameToTableName(file.name);
+
+                if (usedNames.has(tableName)) {
+                    throw new Error(
+                        `Multiple files produce the table name "${tableName}". Rename one file.`
+                    );
+                }
+
+                usedNames.add(tableName);
+
+                const parsed = parseCSV(await file.text());
+
+                parsedFiles.push({
+                    tableName,
+                    ...parsed
+                });
+            }
+
+            newDatabase = new window.SQL.Database();
+
+            for (const table of parsedFiles) {
+                const definitions = table.columns.map((column, index) => {
+                    const type = inferCSVType(table.rows, index);
+                    return `${quoteIdentifier(column)} ${type}`;
+                });
+
+                newDatabase.run(
+                    `CREATE TABLE ${quoteIdentifier(table.tableName)} ` +
+                    `(${definitions.join(", ")});`
+                );
+
+                const placeholders = table.columns.map(() => "?").join(", ");
+                const statement = newDatabase.prepare(
+                    `INSERT INTO ${quoteIdentifier(table.tableName)} ` +
+                    `VALUES (${placeholders});`
+                );
+
+                try {
+                    table.rows.forEach(row => statement.run(row));
+                } finally {
+                    statement.free();
+                }
+            }
+
+            // Replace the previous custom dataset only after every file succeeds.
+            if (explorerDatabase) explorerDatabase.close();
+            explorerDatabase = newDatabase;
+            newDatabase = null;
+
+            const uploadedDataset = {
+                name: "Uploaded Dataset",
+                tables: Object.fromEntries(
+                    parsedFiles.map(table => [
+                        table.tableName,
+                        {
+                            columns: table.columns,
+                            rows: table.rows
+                        }
+                    ])
+                )
+            };
+
+            selectedExplorerTable = parsedFiles[0].tableName;
+            renderExplorerTables(uploadedDataset);
+            renderExplorerPreview(uploadedDataset, selectedExplorerTable);
+
+            csvUploadStatus.textContent =
+                `Successfully loaded ${parsedFiles.length} table(s). ` +
+                "Your files remain in this browser session.";
+
+            const selector = document.getElementById("dataset-selector");
+            selector.value = "custom";
+        } catch (error) {
+            console.error("CSV upload failed:", error);
+            csvUploadStatus.textContent = `Upload failed: ${error.message}`;
+        } finally {
+            if (newDatabase) newDatabase.close();
+            uploadCsvButton.disabled = false;
+        }
+    }
+
+    if (uploadCsvButton) {
+        uploadCsvButton.addEventListener("click", uploadCSVFiles);
+    }
+
+    
+    // Run SQL queries against the uploaded dataset
+    const customSqlEditor = document.getElementById("custom-sql-query");
+    const runCustomSqlButton = document.getElementById("run-custom-sql");
+    const resetCustomSqlButton = document.getElementById("reset-custom-sql");
+    const customSqlStatus = document.getElementById("custom-sql-status");
+    const customSqlRowCount = document.getElementById("custom-sql-row-count");
+    const customSqlResultTable = document.getElementById("custom-sql-result-table");
+
+    function runCustomSQL() {
+        if (!explorerDatabase) {
+            customSqlStatus.textContent = "Upload CSV files or restore the sample dataset first.";
+            return;
+        }
+
+        const query = customSqlEditor.value.trim();
+
+        if (!query) {
+            customSqlStatus.textContent = "Enter a SQL query first.";
+            return;
+        }
+
+        try {
+            const results = explorerDatabase.exec(query);
+            customSqlResultTable.replaceChildren();
+
+            if (results.length === 0) {
+                customSqlResultTable.innerHTML =
+                    "<tbody><tr><td>Query executed successfully. No result table returned.</td></tr></tbody>";
+                customSqlRowCount.textContent = "0 rows";
+                customSqlStatus.textContent = "Query executed successfully.";
+                return;
+            }
+
+            const result = results[0];
+            const thead = document.createElement("thead");
+            const headerRow = document.createElement("tr");
+
+            result.columns.forEach(column => {
+                const th = document.createElement("th");
+                th.textContent = column;
+                headerRow.appendChild(th);
+            });
+
+            thead.appendChild(headerRow);
+
+            const tbody = document.createElement("tbody");
+
+            result.values.forEach(row => {
+                const tr = document.createElement("tr");
+
+                row.forEach(value => {
+                    const td = document.createElement("td");
+                    td.textContent = value === null ? "NULL" : String(value);
+                    tr.appendChild(td);
+                });
+
+                tbody.appendChild(tr);
+            });
+
+            customSqlResultTable.append(thead, tbody);
+            customSqlRowCount.textContent =
+                `${result.values.length} row${result.values.length === 1 ? "" : "s"}`;
+            customSqlStatus.textContent = "Query executed successfully.";
+        } catch (error) {
+            customSqlResultTable.replaceChildren();
+
+            const tbody = document.createElement("tbody");
+            const tr = document.createElement("tr");
+            const td = document.createElement("td");
+
+            td.textContent = error.message;
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+            customSqlResultTable.appendChild(tbody);
+
+            customSqlRowCount.textContent = "Query failed";
+            customSqlStatus.textContent = `SQL error: ${error.message}`;
+        }
+    }
+
+    if (runCustomSqlButton) {
+        runCustomSqlButton.addEventListener("click", runCustomSQL);
+    }
+
+    if (resetCustomSqlButton) {
+        resetCustomSqlButton.addEventListener("click", () => {
+            customSqlEditor.value = "SELECT * FROM customers;";
+            customSqlStatus.textContent = "Query reset.";
+            customSqlResultTable.replaceChildren();
+            customSqlRowCount.textContent = "0 rows";
+        });
+    }
+
+
+    if (restoreSampleButton) {
+        restoreSampleButton.addEventListener("click", () => {
+            try {
+                initializeExplorerDatabase("ecommerce");
+                csvFileInput.value = "";
+                document.getElementById("dataset-selector").value = "ecommerce";
+                csvUploadStatus.textContent = "Sample dataset restored.";
+            } catch (error) {
+                csvUploadStatus.textContent =
+                    `Could not restore sample dataset: ${error.message}`;
+            }
+        });
+    }
+
+
+    
+    // Build the separate database used by Dataset Explorer
+    function initializeExplorerDatabase(datasetId = "ecommerce") {
+        const dataset = explorerDatasets[datasetId];
+
+        if (!dataset || !window.SQL) {
+            throw new Error("Dataset or SQL engine is unavailable.");
+        }
+
+        if (explorerDatabase) {
+            explorerDatabase.close();
+        }
+
+        explorerDatabase = new window.SQL.Database();
+
+        Object.entries(dataset.tables).forEach(([tableName, table]) => {
+            const columnDefinitions = table.columns
+                .map((column, index) => {
+                    const values = table.rows
+                        .map(row => row[index])
+                        .filter(value => value !== null);
+
+                    const type = values.length > 0 &&
+                        values.every(value => typeof value === "number")
+                        ? "REAL"
+                        : "TEXT";
+
+                    return `"${column}" ${type}`;
+                });
+
+            explorerDatabase.run(
+                `CREATE TABLE "${tableName}" (${columnDefinitions.join(", ")});`
+            );
+
+            if (table.rows.length > 0) {
+                const placeholders = table.columns.map(() => "?").join(", ");
+                const statement = explorerDatabase.prepare(
+                    `INSERT INTO "${tableName}" VALUES (${placeholders});`
+                );
+
+                try {
+                    table.rows.forEach(row => statement.run(row));
+                } finally {
+                    statement.free();
+                }
+            }
+        });
+
+        selectedExplorerTable = Object.keys(dataset.tables)[0];
+
+        renderExplorerTables(dataset);
+        renderExplorerPreview(dataset, selectedExplorerTable);
+
+        const status = document.getElementById("dataset-preview-status");
+        if (status) {
+            status.textContent = `${dataset.name} loaded successfully.`;
+        }
+    }
+
+    // Display the available tables
+    function renderExplorerTables(dataset) {
+        const list = document.getElementById("dataset-table-list");
+        if (!list) return;
+
+        list.replaceChildren();
+
+        Object.entries(dataset.tables).forEach(([tableName, table]) => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.textContent = `${tableName} (${table.rows.length} rows)`;
+            button.className = "button button-outline";
+
+            button.addEventListener("click", () => {
+                selectedExplorerTable = tableName;
+                renderExplorerPreview(dataset, tableName);
+            });
+
+            list.appendChild(button);
+        });
+    }
+
+    // Display columns and sample records for a selected table
+    function renderExplorerPreview(dataset, tableName) {
+        const table = dataset.tables[tableName];
+        const title = document.getElementById("dataset-table-title");
+        const description = document.getElementById("dataset-table-description");
+        const preview = document.getElementById("dataset-preview-table");
+
+        if (!table || !title || !description || !preview) return;
+
+        title.textContent = `Table: ${tableName}`;
+        description.textContent =
+            `Columns: ${table.columns.join(", ")} | Sample records: ${table.rows.length}`;
+
+        preview.replaceChildren();
+
+        const thead = document.createElement("thead");
+        const headerRow = document.createElement("tr");
+
+        table.columns.forEach(column => {
+            const th = document.createElement("th");
+            th.textContent = column;
+            headerRow.appendChild(th);
+        });
+
+        thead.appendChild(headerRow);
+
+        const tbody = document.createElement("tbody");
+
+        table.rows.forEach(row => {
+            const tr = document.createElement("tr");
+
+            row.forEach(value => {
+                const td = document.createElement("td");
+                td.textContent = value === null ? "NULL" : String(value);
+                tr.appendChild(td);
+            });
+
+            tbody.appendChild(tr);
+        });
+
+        preview.append(thead, tbody);
+    }
+
+
     function showMessage(text, type = "") {
         message.textContent = text;
         message.className = type;
@@ -567,6 +1122,36 @@ function saveCompletedChallenge(challengeId) {
 
         selector.value = initialId;
         loadChallenge(initialId);
+
+        
+        // Initialize the Dataset Explorer independently of the challenge database
+        try {
+            initializeExplorerDatabase("ecommerce");
+        } catch (error) {
+            console.error("Dataset Explorer initialization failed:", error);
+            const explorerStatus = document.getElementById(
+                "dataset-preview-status"
+            );
+
+            if (explorerStatus) {
+                explorerStatus.textContent =
+                    `Could not load dataset: ${error.message}`;
+            }
+        }
+
+        const datasetSelector = document.getElementById("dataset-selector");
+
+        if (datasetSelector) {
+            datasetSelector.addEventListener("change", () => {
+                try {
+                    initializeExplorerDatabase(datasetSelector.value);
+                } catch (error) {
+                    console.error("Dataset loading failed:", error);
+                }
+            });
+        }
+           
+
         updateProgress();
         console.log("SQL Practice Lab initialized successfully.");
     } catch (error) {

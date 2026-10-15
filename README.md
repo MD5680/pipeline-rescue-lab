@@ -13,7 +13,7 @@ The project is built using HTML, CSS, and JavaScript, with SQL.js providing an S
 
 - **Interactive SQL Editor:** Write and execute SQL queries in the browser.
 - **Multiple SQL Challenges:** Practise duplicate detection, missing-record investigation, and revenue calculation.
-- **Automated Answer Checking:** Compare query results against expected outputs.
+- **Automated Answer Checking:** Compare query results against expected outputs
 - **Hints and Solutions:** Get guidance and review reference SQL queries.
 - **Learning Progress Tracker:** Track completed challenges with a progress bar.
 - **Persistent Progress:** Save completion progress in browser local storage.

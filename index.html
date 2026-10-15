@@ -223,6 +223,167 @@
             </div>
         </section>
 
+          
+<!-- Dataset Explorer -->
+<section class="section container" id="dataset-explorer">
+    <div class="section-heading">
+        <div>
+            <span class="eyebrow">EXPLORE YOUR DATA</span>
+            <h2>Dataset Explorer</h2>
+            <p>Explore sample tables and inspect records before solving problems.</p>
+        </div>
+    </div>
+
+    <div class="dataset-explorer-card">
+
+<div class="dataset-controls">
+    <label for="dataset-selector">Choose a dataset</label>
+    <select id="dataset-selector">
+        <option value="ecommerce">E-commerce Sample Dataset</option>
+    </select>
+
+    <div class="dataset-upload">
+        <h3>Upload Your Own Dataset</h3>
+        <p>Select one or more related CSV files from your computer.</p>
+
+        <label for="csv-file-upload">Choose CSV files</label>
+
+        <button
+        type="button"
+        id="browse-csv-button"
+        class="button button-outline"
+    >
+    Browse Files
+</button>
+
+        <input
+         type="file"
+        id="csv-file-upload"
+        accept=".csv,text/csv"
+        multiple
+        hidden
+        >
+
+        <button
+            type="button"
+            id="upload-csv-button"
+            class="button button-primary"
+        >
+            Upload CSV Files
+        </button>
+
+        <button
+            type="button"
+            id="restore-sample-dataset"
+            class="button button-outline"
+        >
+            Restore Sample Dataset
+        </button>
+
+        <p id="csv-upload-status" role="status" aria-live="polite">
+            No custom files uploaded yet.
+        </p>
+    </div>
+</div>
+
+
+        <div class="dataset-layout">
+            <div class="dataset-sidebar">
+                <h3>Available Tables</h3>
+                <div id="dataset-table-list">
+                    <p>Dataset tables will appear here.</p>
+                </div>
+            </div>
+
+            <div class="dataset-preview">
+                <h3 id="dataset-table-title">Table Preview</h3>
+                <p id="dataset-table-description">
+                    Select a table to inspect its records.
+                </p>
+
+                <div class="dataset-table-wrapper">
+                    <table id="dataset-preview-table">
+                        <tbody>
+                            <tr>
+                                <td>Select a table to view sample records.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p id="dataset-preview-status" role="status">
+                    Dataset Explorer is ready for setup.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Dataset Explorer -->
+
+
+<!-- Custom Dataset SQL Workspace -->
+<section class="section container" id="custom-sql-workspace">
+    <div class="section-heading">
+        <div>
+            <span class="eyebrow">PRACTISE WITH YOUR OWN DATA</span>
+            <h2>Custom Dataset SQL Workspace</h2>
+            <p>Write SQL queries against the CSV tables you uploaded above.</p>
+        </div>
+    </div>
+
+    <div class="dataset-explorer-card">
+        <label for="custom-sql-query">Your SQL query</label>
+
+        <textarea
+            id="custom-sql-query"
+            rows="8"
+            spellcheck="false"
+            placeholder="SELECT * FROM customers;"
+        >SELECT * FROM customers;</textarea>
+
+        <div class="sql-actions">
+            <button
+                type="button"
+                id="run-custom-sql"
+                class="button button-primary"
+            >
+                Run Query
+            </button>
+
+            <button
+                type="button"
+                id="reset-custom-sql"
+                class="button button-outline"
+            >
+                Reset Query
+            </button>
+
+            <span id="custom-sql-status" role="status">
+                Upload CSV files to get started.
+            </span>
+        </div>
+
+        <div class="sql-results">
+            <div class="sql-results-header">
+                <h3>Query Results</h3>
+                <span id="custom-sql-row-count">0 rows</span>
+            </div>
+
+            <div class="dataset-table-wrapper">
+                <table id="custom-sql-result-table">
+                    <tbody>
+                        <tr>
+                            <td>Query results will appear here.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Custom Dataset SQL Workspace -->
+
+
         <!-- Interactive SQL Practice Lab -->
         <section class="section container" id="sql-lab">
             <div class="section-heading">
