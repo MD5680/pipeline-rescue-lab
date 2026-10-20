@@ -746,5 +746,63 @@ HAVING COUNT(*) > 1;</textarea>
     <script src="js/app.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/sql-wasm.js" defer></script>
     <script src="js/sql-lab.js" defer></script>
+
+
+<!-- AI Data Engineering Tutor -->
+<button
+    type="button"
+    id="ai-tutor-toggle"
+    class="ai-tutor-toggle"
+    aria-controls="ai-tutor-panel"
+    aria-expanded="false"
+>
+    <span aria-hidden="true">✦</span> AI Tutor
+</button>
+
+<section
+    id="ai-tutor-panel"
+    class="ai-tutor-panel"
+    aria-label="AI Data Engineering Tutor"
+    hidden
+>
+    <header class="ai-tutor-header">
+        <div>
+            <strong>Pipeline Rescue AI</strong>
+            <p>Your Data Engineering learning assistant</p>
+        </div>
+        <button
+            type="button"
+            id="ai-tutor-close"
+            class="ai-tutor-close"
+            aria-label="Close AI Tutor"
+        >×</button>
+    </header>
+
+    <div id="ai-tutor-messages" class="ai-tutor-messages" aria-live="polite">
+        <div class="ai-tutor-message assistant">
+            Hi! I'm your Data Engineering tutor. Ask me about SQL, Python,
+            PySpark, ETL, or data pipelines.
+        </div>
+    </div>
+
+    <form id="ai-tutor-form" class="ai-tutor-form">
+        <label for="ai-tutor-input">Your question</label>
+        <textarea
+            id="ai-tutor-input"
+            rows="3"
+            maxlength="2000"
+            placeholder="Ask a Data Engineering question..."
+            required
+        ></textarea>
+        <button type="submit" id="ai-tutor-send" class="button button-primary">
+            Send message
+        </button>
+        <p id="ai-tutor-status" role="status"></p>
+    </form>
+</section>
+<!-- End AI Data Engineering Tutor -->
+
+<script src="js/ai-tutor.js" defer></script>
+
 </body>
 </html>
